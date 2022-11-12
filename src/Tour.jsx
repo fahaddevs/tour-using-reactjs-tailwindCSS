@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Tour({id, name, info, image, price}) {
+export default function Tour({id, name, info, image, price, removeTour}) {
 
   const [readmore, setReadmore] = useState(false);
 
@@ -27,7 +27,12 @@ export default function Tour({id, name, info, image, price}) {
               </button>
             </p>
           
-          <button  type='button' className='py-2 px-4 bg-red-600 text-white rounded-lg w-full mt-3'>Remove Item</button>
+          <button 
+            type='button' 
+            className='py-2 px-4 bg-red-600 text-white rounded-lg w-full mt-3' 
+            onClick={()=> removeTour(id)}>
+            Remove Item
+          </button>
         </footer>
       </article>
     </>

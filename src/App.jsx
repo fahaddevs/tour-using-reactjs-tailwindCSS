@@ -10,11 +10,23 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [tours, setTours] = useState([]);
 
+  const removeTour = (id)=>{
+    const newTours = tours.filter((tour) => tour.id !== id);
+
+    setTours(newTours)
+  }
+
   const fetchTours = async () => {
-    const response = await fetch(url);
-    const tours = await response.json();
-    setLoading(false)
-    setTours(tours)
+    try {
+      const response = await fetch(url);
+      const tours = await response.json();
+      setLoading(false)
+      setTours(tours)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+    
   }
 
   useEffect(()=>{
@@ -31,9 +43,25 @@ function App() {
     )
   }
 
+  if(tours.length == 0) {
+    return (
+      <div className="h-screen flex py-10 justify-center">
+        <div className='w-4/12 text-center'>
+          <h2 className='text-4xl font-bold'>No Tour Left</h2>
+          <button 
+            type='button'
+            className='py-2 px-4 bg-green-600 text-white rounded-lg mt-3'
+            onClick={()=>fetchTours()}>
+              Refresh
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex justify-center py-10">
-      <Tours tours={tours} />
+      <Tours tours={tours} removeTour={removeTour} />
     </div>
   )
 }
